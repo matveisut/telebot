@@ -3,7 +3,12 @@ from google.genai import types
 import config
 import logging
 
+from PIL import Image
+from io import BytesIO
+import base64
 
+
+            
 def get_gemini_client():
     """Инициализирует и возвращает клиент Gemini API."""
     global _gemini_client
@@ -13,14 +18,10 @@ def get_gemini_client():
 
 
 def return_text(query, system_prompt='ты человек'):
-    
-    
     try:
-
-
         client = genai.Client(api_key=config.gemini_api) 
 
-        response = client.models.generate_content(
+        response = client.models.generate_content_stream(
                 model="gemini-2.5-flash",
                 contents=query,
                 config=types.GenerateContentConfig(
@@ -31,8 +32,6 @@ def return_text(query, system_prompt='ты человек'):
         
         return response.text
     except Exception as e:
-        logging.error(f"Ошибка в return_text_async: {e}")
+        logging.error(f"Ошибка в return_text: {e}")
         return None # Или поднять исключение, в зависимости от логики
 
-    
-print(return_text('расскажи шутку'))
