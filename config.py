@@ -1,1 +1,3 @@
 BOT_TOKEN = '7559599653:AAHzpi6zohNEnykDxUJuz_8aF70srq1Dhds'
+
+gemini_api="AIzaSyC_FRpl715Hd0eQJ7aB_Yh3ecHaZIzoNAA"
