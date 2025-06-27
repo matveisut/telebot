@@ -1,24 +1,19 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove
 menu_reply = [
-    [KeyboardButton(text="🖼 Генерировать текст", callback_data="generate_text"),
-    KeyboardButton(text="🖼 Генерировать текст", callback_data="generate_text"),
-    KeyboardButton(text="🖼 Генерировать текст", callback_data="generate_text")],
-    [KeyboardButton(text="💳 Купить токены", callback_data="buy_tokens"),
-    KeyboardButton(text="💰 Баланс", callback_data="balance")],
-    [KeyboardButton(text="💎 Партнёрская программа", callback_data="ref"),
-    KeyboardButton(text="🎁 Бесплатные токены", callback_data="free_tokens")],
-    [KeyboardButton(text="🔎 Помощь", callback_data="help")]
+    [KeyboardButton(text="🖼 Генерировать текст"),
+    KeyboardButton(text="🖼 Генерировать текст"),
+    KeyboardButton(text="клавиатура")],
+    [KeyboardButton(text="/register"),
+    KeyboardButton(text="💰 Баланс")],
+    [KeyboardButton(text="💎 Партнёрская программа"),
+    KeyboardButton(text="🎁 Бесплатные токены")],
+    [KeyboardButton(text="🔎 Помощь")]
 ]
 
 menu = [
-    [InlineKeyboardButton(text="🖼 Генерировать текст", callback_data="generate_text"),
-    InlineKeyboardButton(text="🖼 Генерировать текст", callback_data="generate_text"),
-    InlineKeyboardButton(text="🖼 Генерировать текст", callback_data="generate_text")],
-    [InlineKeyboardButton(text="💳 Купить токены", callback_data="buy_tokens"),
-    InlineKeyboardButton(text="💰 Баланс", callback_data="balance")],
-    [InlineKeyboardButton(text="💎 Партнёрская программа", callback_data="ref"),
-    InlineKeyboardButton(text="🎁 Бесплатные токены", callback_data="free_tokens")],
-    [InlineKeyboardButton(text="🔎 Помощь", callback_data="help")]
+    [InlineKeyboardButton(text="q", callback_data="callback_q"),
+    InlineKeyboardButton(text="w", callback_data="callback_w"),
+    InlineKeyboardButton(text="e", callback_data="callback_e")],
 ]
 
 start_kb = [[KeyboardButton(text="/start", callback_data = '/start')]]

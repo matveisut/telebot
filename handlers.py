@@ -9,6 +9,7 @@ from states import Gen
 from aiogram.types.callback_query import CallbackQuery  # Вот этого.
 import kb
 import text
+from states import Register
 
 router = Router()
 
@@ -18,33 +19,51 @@ router = Router()
 async def start_handler(msg: types.Message):
     await msg.answer(f'привет {msg.from_user.full_name}', reply_markup=kb.menu_reply)
 
-
-@router.message(F.text.lower() == "меню")
-async def menu(msg: Message):
-    await msg.answer(text.menu, reply_markup=kb.menu)
     
 @router.message(F.text.lower() == "какой то текст")
 async def menu(msg: Message):
     await msg.answer('какой то ответ')
+
+
+@router.message(F.text.lower() == "клавиатура")
+async def menu(msg: Message):
+    await msg.answer('клаиватура', reply_markup=kb.menu)
+    
+
+@router.callback_query(F.data == "callback_q") #ввод с клавы
+async def q_window(callback: CallbackQuery, state: FSMContext):
     
     
-@router.callback_query(F.data == "generate_text") #ввод с клавы
-async def input_text_prompt(clbck: CallbackQuery, state: FSMContext):
+    await callback.answer('вы выбрали окошко_q')
+    await callback.message.answer('окошко_q')
     await state.set_state(Gen.text_prompt)
-    await clbck.message.edit_text(text.gen_text)
-    await clbck.message.answer(text.gen_exit, reply_markup=kb.exit_kb)
+    
 
 
-@router.message(Gen.text_prompt)
-async def generate_text(msg: Message, state: FSMContext):
-    prompt = msg.text
-    mesg = await msg.answer(text.gen_wait)
-    res = await utils.return_text(prompt)
-    if not res:
-        return await mesg.edit_text(text.gen_error, reply_markup=kb.iexit_kb)
-    await mesg.edit_text(res[0] + text.text_watermark, disable_web_page_preview=True)
+@router.message(Command("register"))
+async def register(msg: Message, state: FSMContext):
+    await state.set_state(Register.name)
+    await msg.answer('введи имя')
+
+@router.message(Register.name)
+async def register(msg: Message, state: FSMContext):
+    await state.update_data(name = msg.text)
+    await state.set_state(Register.age)
+    await msg.answer('возраст')
+    
+@router.message(Register.age)
+async def register(msg: Message, state: FSMContext):
+    await state.update_data(age = msg.text)
+    await state.set_state(Register.number)
+    await msg.answer('введи номре')
 
 
+@router.message(Register.number)
+async def register(msg: Message, state: FSMContext):
+    await state.update_data(age = msg.text)
+    await state.set_state(Register.passs)
+    await msg.answer('пока')
+    
 @router.message()
-async def cmd_start(msg: types.Message):
-    await msg.answer('press start', reply_markup=kb.start)
+async def start_handler(msg: types.Message):
+    await msg.answer(f'нажми старт', reply_markup=kb.start)
