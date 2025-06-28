@@ -43,26 +43,30 @@ async def q_window(callback: CallbackQuery, state: FSMContext):
 @router.message(Command("register"))
 async def register(msg: Message, state: FSMContext):
     await state.set_state(Register.name)
-    await msg.answer('введи имя')
+    await msg.answer('введи имя', reply_markup=types.ReplyKeyboardRemove())
 
 @router.message(Register.name)
 async def register(msg: Message, state: FSMContext):
+    
     await state.update_data(name = msg.text)
     await state.set_state(Register.age)
     await msg.answer('возраст')
     
 @router.message(Register.age)
 async def register(msg: Message, state: FSMContext):
+    
     await state.update_data(age = msg.text)
     await state.set_state(Register.number)
-    await msg.answer('введи номре')
+    await msg.answer('введи номер',reply_markup = kb.get_number)
 
 
-@router.message(Register.number)
+@router.message(Register.number, F.contact)
 async def register(msg: Message, state: FSMContext):
-    await state.update_data(age = msg.text)
-    await state.set_state(Register.passs)
-    await msg.answer('пока')
+
+    await state.update_data(number = msg.contact.phone_number)
+    data = await state.get_data()
+    await msg.answer(f"имя :{data['name']}, возраст: {data['age']}, номер: {data['number']}", reply_markup=types.ReplyKeyboardRemove())
+    await state.clear()
     
 @router.message()
 async def start_handler(msg: types.Message):

@@ -8,4 +8,3 @@ class Register(StatesGroup):
     name = State()
     age = State()
     number = State()
-    passs = State()

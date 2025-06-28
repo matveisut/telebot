@@ -18,7 +18,9 @@ menu = [
 
 start_kb = [[KeyboardButton(text="/start", callback_data = '/start')]]
 
-start = ReplyKeyboardMarkup(keyboard=start_kb)
+start = ReplyKeyboardMarkup(keyboard=start_kb, resize_keyboard=True)
 menu = InlineKeyboardMarkup(inline_keyboard=menu, resize_keyboard=True) #в чате
 menu_reply = ReplyKeyboardMarkup(keyboard = menu_reply) #внутри 
 exit_kb = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="◀️ Выйти в меню")]], resize_keyboard=True)
+
+get_number = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text= 'отправить номер', request_contact=True)]], resize_keyboard=True)
