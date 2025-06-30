@@ -19,7 +19,6 @@ router = Router()
 async def start_handler(msg: types.Message):
     await msg.answer(f'привет {msg.from_user.full_name}', reply_markup=kb.menu_reply)
 
-
 @router.message(F.text.lower() == "какой то текст")
 async def menu(msg: Message):
     await msg.answer('какой то ответ')
