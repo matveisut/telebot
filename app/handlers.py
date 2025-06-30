@@ -72,6 +72,12 @@ async def register(msg: Message, state: FSMContext):
 async def start_handler(msg: types.Message):
     await msg.answer(f'нажми старт', reply_markup=kb.start)
 
+<<<<<<< HEAD
 @router.message(Command("я сосу яйца"))
 async def start_handler(msg: types.Message):
     await msg.answer(f'привет, соси яйца')
+=======
+@router.message(Command("matvei_secret"))
+async def start_handler(msg: types.Message):
+    await msg.answer(f'привет matvei_secretmatvei_secretmatvei_secretmatvei_secretmatvei_secretmatvei_secretmatvei_secretmatvei_secret')
+>>>>>>> 8d1ba94393e384b7c4b1bd22268bd7b2a0283712
