@@ -1,4 +1,6 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove
+
+
 menu_reply = [
     [KeyboardButton(text="🖼 Генерировать текст"),
     KeyboardButton(text="🖼 Генерировать текст"),

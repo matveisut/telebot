@@ -1,3 +1,11 @@
-BOT_TOKEN = '7559599653:AAHzpi6zohNEnykDxUJuz_8aF70srq1Dhds'
+from dotenv import load_dotenv
+import os
 
-gemini_api="AIzaSyC_FRpl715Hd0eQJ7aB_Yh3ecHaZIzoNAA"
+load_dotenv()  # Загружает переменные из .env
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+gemini_api = os.getenv("gemini_api")
+PG_LINK = os.getenv("PG_LINK")
+ROOT_PASS = os.getenv("ROOT_PASS")
+
+print(PG_LINK)
