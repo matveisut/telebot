@@ -1,15 +1,12 @@
 from aiogram import F, Router, types
 from aiogram.filters import Command
 from aiogram.types import Message
-
-from aiogram import flags
 from aiogram.fsm.context import FSMContext
-import utils
 from states import Gen
-from aiogram.types.callback_query import CallbackQuery  # Вот этого.
+from aiogram.types.callback_query import CallbackQuery
 import kb
-import text
 from states import Register
+
 
 router = Router()
 
