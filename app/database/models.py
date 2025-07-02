@@ -1,35 +1,49 @@
-import asyncio
-import asyncpg
-import datetime
-async def run():
-    conn = await asyncpg.connect(user='postgres', password='123',
-                                 database='db111', host='localhost')
-    # Execute a statement to create a new table.
-    
-    await conn.execute('''
-        DROP TABLE users
-    ''')
-    
-    
-    await conn.execute('''
-        CREATE TABLE users(
-            id serial PRIMARY KEY,
-            name text,
-            dob date
-        )
-    ''')
 
-    # Insert a record into the created table.
-    await conn.execute('''
-        INSERT INTO users(name, dob) VALUES($1, $2)
-    ''', 'Bob', datetime.date(1984, 3, 1))
+from sqlalchemy.ext.asyncio import AsyncAttrs, create_async_engine, async_sessionmaker
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy import String, ForeignKey, BigInteger
 
-    # Select a row from the table.
-    row = await conn.fetchrow(
-        'SELECT * FROM users WHERE name = $1', 'Bob')
-    # *row* now contains
-    # asyncpg.Record(id=1, name='Bob', dob=datetime.date(1984, 3, 1))
+# импорт из родительской папки
+import sys
+import os
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.insert(0, parent_dir)
+import config
 
-    # Close the connection.
-    await conn.close()
-asyncio.run(run())
+print(f"Database URL: {config.DATABASE_URL}")
+
+engine = create_async_engine(url = config.DATABASE_URL)
+  
+async_session = async_sessionmaker(engine)
+
+class Base(AsyncAttrs, DeclarativeBase):
+    __table_args__ = {'extend_existing': True}
+
+class User(Base):
+    __tablename__ = 'users'
+    
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement= True)
+    tg_id = mapped_column(BigInteger)
+    
+
+class Category(Base):
+    __tablename__ = 'categories'
+    
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement= True)
+    name: Mapped[str]  = mapped_column(String(25))
+
+
+class Item(Base):
+    __tablename__ = 'items'
+
+    
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement= True)
+    name: Mapped[str]  = mapped_column(String(25))
+    description: Mapped[str] = mapped_column(String(120))
+    price: Mapped[int] = mapped_column()
+    category: Mapped[int] = mapped_column(ForeignKey('categories.id'))
+
+async def async_main():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
