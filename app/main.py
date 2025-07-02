@@ -4,9 +4,10 @@ import asyncio
 import handlers
 import logging
 from aiogram.enums import ParseMode
-
+import database.models
 
 async def main():
+    await database.models.async_main()
     bot = Bot(token= BOT_TOKEN, parse_mode=ParseMode.HTML)
     dp = Dispatcher()
     dp.include_router(handlers.router)
@@ -15,8 +16,8 @@ async def main():
     
 
 if __name__ == '__main__':
-    try:
-        logging.basicConfig(level=logging.INFO)
-        asyncio.run(main())
-    except:
-        print('бот выключен')
+
+    logging.basicConfig(level=logging.INFO)
+    asyncio.run(main())
+
+    print('бот выключен')
